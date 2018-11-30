@@ -1,2 +1,2 @@
 # Insecure
-Just a normal chrome extension
+May or may not redirect you to corndog.io
