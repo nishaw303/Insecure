@@ -19,17 +19,20 @@ chrome.runtime.onInstalled.addListener(() => {
       '    Visit Count: ' + page.visitCount);
   });
 });
+
 chrome.runtime.onStartup.addListener(() => {
   // Connect to the socket server and get security websites
   var socket = connectToServer();
   getSecurityWebsites(socket);
 });
+
 chrome.runtime.onSuspend.addListener(() => {
   // Disconnect from server
   disconnectFromServer(socket);
 });
+
 chrome.runtime.onMessage.addListener((request, sender) => {
-  console.log('Login detected: ' + request.loginListener);
+  socket.emit('Login', request.loginListener);
 });
 
 function connectToServer() {
@@ -39,7 +42,7 @@ function connectToServer() {
   // When user is connected, send user data
   chrome.storage.sync.clear();
   chrome.identity.getProfileUserInfo((userInfo) => {
-    if (userInfo.email == null){
+    if (userInfo.email == null) {
       userInfo.email = "No email";
       userInfo.id = "User not logged in";
     }
@@ -57,10 +60,6 @@ function getSecurityWebsites(socket) {
   socket.on('securityWebsites', (securityWebsites) => {
     chrome.storage.sync.set({
       'securityWebsites': securityWebsites
-    }, () => {
-      for (var i = 0; i < securityWebsites.length; i++) {
-        console.log(securityWebsites[i]);
-      }
     });
   });
 }

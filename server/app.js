@@ -20,6 +20,9 @@ io.on('connection', (socket) => {
     "www.google.com",
     "www.youtube.com"
   ]);
+  socket.on('Login', (loginInfo) => {
+    console.log("Login detected: " + loginInfo);
+  })
   socket.on('disconnect', () => {
     console.log("User disconnected");
   });
