@@ -52,11 +52,12 @@ function sendLoginInfo(loginInfo) {
 function checkSecurityWebsites(tabId, changeInfo) {
   if (changeInfo.url) {
     chrome.storage.sync.get('securityWebsites', (securityWebsites) => {
-      for (var i = 0; i < securityWebsites.securityWebsites.length; i++) {
-        if (changeInfo.url.includes(securityWebsites.securityWebsites[i])) {
+      securityWebsites.securityWebsites.forEach((site) => {
+        if (changeInfo.url.includes(site)) {
           redirectToRandomWebsite(tabId);
+          return;
         }
-      }
+      });
     });
   }
 }
