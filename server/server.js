@@ -19,6 +19,25 @@ con.connect(function(err) {
   console.log("Connected To Database!");
 });
 
+/* This is commented out because users.js seems to be necessary for the passport module.
+con.query("SELECT * FROM Admin WHERE name= '"+username+"'", function (err, result, fields) {
+  if (err) return cb(null,err);
+  if(password === result[0].password){
+    var user = {
+      id: result[0].idAdmin,
+      username: username,
+      password: password,
+      displayName: username,
+      emails: [{
+        value: 'email@gmail.com'
+      }]};
+    return cb(null,user);
+  }else{
+    return cb(null,false);
+  }
+});
+*/
+
 passport.use(new Strategy(
   function(username, password, cb) {
     users.findByUsername(username, function(err, user) {
