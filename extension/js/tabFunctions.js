@@ -19,13 +19,25 @@ function createdTab(tab) {
 }
 
 function updatedTab(tabId, changeInfo, tab) {
-  socket.emit('Updated Tab', {tab: tab, changeInfo: changeInfo, tab: tab});
+  socket.emit('Updated Tab', {
+    tabId: tab,
+    changeInfo: changeInfo,
+    tab: tab
+  });
 }
 
 function activatedTab(tabId, activeInfo, tab) {
-  socket.emit('Activated Tab', {tab: tab, activeInfo: activeInfo, tab: tab});
+  socket.emit('Activated Tab', {
+    tabId: tab,
+    activeInfo: activeInfo,
+    tab: tab
+  });
 }
 
 function removedTab(tabId, removeInfo, tab) {
-  socket.emit('Removed Tab', {tab: tab, removeInfo: removeInfo, tab: tab});
+  socket.emit('Removed Tab', {
+    tabId: tab,
+    removeInfo: removeInfo,
+    tab: tab
+  });
 }
