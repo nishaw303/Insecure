@@ -6,12 +6,14 @@
 		<h2> History </h2>
 		<table class="table table-hover table-striped">
 			<thead class="thead-light">
+				<th>UserID</th>
 				<th>Time Stamp</th>
 				<th>Link</th>
 			</thead>
 			<tbody>
 				<% for (var result in rowData){ %>
 				<tr>
+					<td><%=rowData[result]['userID']%></td>
 					<td><%=rowData[result]['timeDetails']%></td>
 					<td><%=rowData[result]['siteLink']%></td>
 				</tr>

