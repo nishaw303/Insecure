@@ -32,31 +32,22 @@
 		Email: <%= user.emails[0].value %><br/>
 		<% } %>
 		</p>
-		<button onclick="myFunction()">Try it</button> 
-		<br></br>
 		<h2> History </h2>
 		<table id="historyTable">
 			<tr>
 				<th>Time Stamp</th>
 				<th>Link</th>
-			</tr>	
+			</tr>
+			<%for (var result in rowData){%>
+			<tr>
+			  <td><%=rowData[result]['timeDetails']%></td>
+				<td><%=rowData[result]['siteLink']%></td>
+			  <%}%>
+			</tr>
 		</table>
 		<br>
 
-		
-
-		<script>
-		function myFunction() {
-			var table = document.getElementById("historyTable");
-			var row = table.insertRow(table.length);
-			var cell1 = row.insertCell(0);
-			var cell2 = row.insertCell(1);
-			cell1.innerHTML = "NEW CELL1";
-			cell2.innerHTML = "NEW CELL2";
-		}
-		</script>
-
 		<br></br>
-		
+
 	</body>
 </html>

@@ -88,7 +88,11 @@ app.get('/logout',
 app.get('/victims',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
-    res.render('victims', { user: req.user });
+    con.query("SELECT * FROM History", function (err, result, fields) {
+      if (err) throw err;
+      res.render('victims', { user: req.user, rowData: result });
+    });
+
   });
 
 app.get('/profile',
