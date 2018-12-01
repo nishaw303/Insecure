@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			table {
+				font-family: arial, sans-serif;
+				border-collapse: collapse;
+				width: 100%;
+			}
+
+			td, th {
+				border: 1px solid #dddddd;
+				text-align: left;
+				padding: 8px;
+			}
+			#historyTable th {
+				padding-top: 12px;
+				padding-bottom: 12px;
+				text-align: left;
+				background-color: #4CAF50;
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<a href="/logout">Log out</a>
+		<h2> History </h2>
+		<table id="historyTable">
+			<tr>
+				<th>User ID</th>
+				<th>details</th>
+			</tr>
+			<%for (var result in rowData){%>
+			<tr>
+			  <td><%=rowData[result]['userID']%></td>
+				<td><%=rowData[result]['details']%></td>
+			  <%}%>
+			</tr>
+		</table>
+		<br>
+
+		<br></br>
+
+	</body>
+</html>

