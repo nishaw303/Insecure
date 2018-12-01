@@ -1,27 +1,6 @@
-<html>
-<head>
-	<style>
-		table {
-			font-family: arial, sans-serif;
-			border-collapse: collapse;
-			width: 100%;
-		}
-
-		td, th {
-			border: 1px solid #dddddd;
-			text-align: left;
-			padding: 8px;
-		}
-		#userTable th {
-			padding-top: 12px;
-			padding-bottom: 12px;
-			text-align: left;
-			background-color: #4CAF50;
-			color: white;
-		}
-	</style>
-</head>
-<body>
+<% include ./partials/header %>
+<% include ./partials/navBar %>
+<div class="container">
 	<% if (!user) { %>
 		<p>Welcome! Please <a href="/login">log in</a>.</p>
 	<% } else { %>
@@ -38,6 +17,5 @@
 				</tr>
 			</table>
 	<% } %>
-</body>
-
-</html>
+</div>
+<% include ./partials/footer %>
