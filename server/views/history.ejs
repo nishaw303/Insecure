@@ -1,46 +1,26 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<style>
-			table {
-				font-family: arial, sans-serif;
-				border-collapse: collapse;
-				width: 100%;
-			}
+<% include ./partials/header %>
+<% include ./partials/navBar %>
 
-			td, th {
-				border: 1px solid #dddddd;
-				text-align: left;
-				padding: 8px;
-			}
-			#historyTable th {
-				padding-top: 12px;
-				padding-bottom: 12px;
-				text-align: left;
-				background-color: #4CAF50;
-				color: white;
-			}
-		</style>
-	</head>
-	<body>
+<div class="container-fluid">
+	<a href="/logout">Log out</a>
+
+	<div class="table-responsive">
 		<h2> History </h2>
-		<a href="/logout">Log out</a>
-		<br><br>
-		<table id="historyTable">
-			<tr>
+		<table class="table table-hover table-striped">
+			<thead class="thead-light">
 				<th>Time Stamp</th>
 				<th>Link</th>
-			</tr>
-			<%for (var result in rowData){%>
-			<tr>
-			  <td><%=rowData[result]['timeDetails']%></td>
-				<td><%=rowData[result]['siteLink']%></td>
-			  <%}%>
-			</tr>
+			</thead>
+			<tbody>
+				<% for (var result in rowData){ %>
+				<tr>
+					<td><%=rowData[result]['timeDetails']%></td>
+					<td ><%=rowData[result]['siteLink']%></td>
+				</tr>
+				<% } %>
+			</tbody>
 		</table>
-		<br>
+	</div>
+</div>
 
-		<br></br>
-		<!--start of new table look-->
-	</body>
-</html>
+<% include ./partials/footer %>
