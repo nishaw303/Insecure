@@ -1,5 +1,6 @@
 <% include ./partials/header %>
 <% include ./partials/navBar %>
+<body>
 <div class="container">
 	<% if (!user) { %>
 		<p>Welcome! Please <a href="/login">log in</a>.</p>
@@ -18,4 +19,5 @@
 			</table>
 	<% } %>
 </div>
+</body>
 <% include ./partials/footer %>
