@@ -89,7 +89,10 @@ app.use(passport.session());
 app.get('/',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
-    res.render('home', { user: req.user });
+    con.query("SELECT * FROM Victims", function (err, result, fields) {
+      if (err) throw err;
+      res.render('home', { rowData: result });
+    });
   });
 
 app.get('/login',

@@ -8,10 +8,12 @@
 				<th>UserID</th>
 				<th>Email</th>
 			</thead>
+			<% for (var result in rowData){ %>
 			<tr>
-			  <td>data1</td>
-				<td>data2</td>
+				<td><%=rowData[result]['userID']%></td>
+				<td><%=rowData[result]['email']%></td>
 			</tr>
+			<% } %>
 		</table>
 		<br>
 	</div>
