@@ -1,7 +1,29 @@
-var records = [
-    { id: 1, username: 'kevin', password: 'chang', displayName: 'Kevin', emails: [ { value: 'kevin@gmail.com' } ] }
-  , { id: 2, username: 'admin', password: 'password', displayName: 'Jill', emails: [ { value: 'admin@gmail.com' } ] }
-];
+var records = [{
+  id: 1,
+  username: 'kevin',
+  password: 'chang',
+  displayName: 'Kevin',
+  emails: [{
+    value: 'kevin@gmail.com'
+  }]
+}, {
+  id: 2,
+  username: 'admin',
+  password: 'password',
+  displayName: 'Jill',
+  emails: [{
+    value: 'admin@gmail.com'
+  }]
+}, {
+  id: 3,
+  username: 'nick',
+  password: 'corndog',
+  displayName: 'Nick',
+  emails: [{
+    value: 'nick@corndog.io'
+  }]
+}
+}];
 
 exports.findById = function(id, cb) {
   process.nextTick(function() {
