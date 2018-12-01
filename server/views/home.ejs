@@ -1,21 +1,19 @@
 <% include ./partials/header %>
 <% include ./partials/navBar %>
-<div class="container">
-	<% if (!user) { %>
-		<p>Welcome! Please <a href="/login">log in</a>.</p>
-	<% } else { %>
-		<p>Hello, <%= user.username %>.</p>
-			<table class="table">
-				<tr>
-					<th>User ID</th>
-					<th>Email</th>
-				</tr>
-				<tr>
-					<tr>
-		      <td>Mark</td>
-		      <td>Otto</td>
-				</tr>
-			</table>
-	<% } %>
+<div class="container-fluid">
+	<h2> Victims </h2>
+	<div class="table-responsive">
+		<table class="table table-hover table-striped">
+			<thead class="thead-light">
+				<th>UserID</th>
+				<th>Email</th>
+			</thead>
+			<tr>
+			  <td>data1</td>
+				<td>data2</td>
+			</tr>
+		</table>
+		<br>
+	</div>
 </div>
 <% include ./partials/footer %>
