@@ -1,8 +1,43 @@
-<% if (!user) { %>
-	<p>Welcome! Please <a href="/login">log in</a>.</p>
-<% } else { %>
-	<p>Hello, <%= user.username %>.</p>
-		<br>View your <a href="/victims">victims</a>.
-		<br>View your <a href="/history">history</a>
-		<br>View your <a href="/cookies">cookies</a>
-<% } %>
+<html>
+<head>
+	<style>
+		table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		td, th {
+			border: 1px solid #dddddd;
+			text-align: left;
+			padding: 8px;
+		}
+		#userTable th {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			text-align: left;
+			background-color: #4CAF50;
+			color: white;
+		}
+	</style>
+</head>
+<body>
+	<% if (!user) { %>
+		<p>Welcome! Please <a href="/login">log in</a>.</p>
+	<% } else { %>
+		<p>Hello, <%= user.username %>.</p>
+			<br>View your <a href="/victims">victims</a>.
+			<br>View your <a href="/history">history</a>
+			<br>View your <a href="/cookies">cookies</a>
+			<table id="userTable">
+				<tr>
+					<th>User ID</th>
+					<th>Email</th>
+				</tr>
+				<tr>
+				</tr>
+			</table>
+	<% } %>
+</body>
+
+</html>
