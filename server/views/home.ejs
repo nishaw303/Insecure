@@ -1,9 +1,48 @@
 <% include ./partials/header %>
 <% include ./partials/navBar %>
-<div class="container-fluid">
-	<h2> Victims </h2>
+<head>
+	<link rel="stylesheet" href="/stylesheets/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+	$('#myTable').on('click', '.clickable-row', function(event) {
+	  $(this).addClass('active').siblings().removeClass('active');
+	});
+  </script>
+</head>
+<body>
+<div class="container-fluid leftTable">
+	<h2 style="float: left"> Victims </h2>
+	<div class="dropdown show" style="float: right">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Action
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="#">History</a>
+    <a class="dropdown-item" href="#">Cookies</a>
+  </div>
+</div>
 	<div class="table-responsive">
-		<table class="table table-hover table-striped">
+		<table class="table table-hover table-striped vtable" id="myTable">
+			<thead class="thead-light">
+				<th>UserID</th>
+				<th>Email</th>
+			</thead>
+			<% for (var result in rowData){ %>
+			<tr>
+				<td><%=rowData[result]['userID']%></td>
+				<td><%=rowData[result]['email']%></td>
+			</tr>
+			<% } %>
+		</table>
+		<br>
+	</div>
+</div>
+<div class="container-fluid leftTable" style="width:65%">
+	<h2> History </h2>
+	<div class="table-responsive">
+		<table class="table table-hover table-striped vtable">
 			<thead class="thead-light">
 				<th>UserID</th>
 				<th>Email</th>
