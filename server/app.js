@@ -8,10 +8,6 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-/* The server will be broadcasting it's public encryption key to the clients
-so the login info and online status can be encrypted
-*/
-
 io.on('connection', (socket) => {
   socket.on("userInfo", (userInfo) => {
     console.log("User connected: " + userInfo.email + " " + userInfo.id);
@@ -22,7 +18,19 @@ io.on('connection', (socket) => {
   ]);
   socket.on('Login', (loginInfo) => {
     console.log("Login detected: " + loginInfo);
-  })
+  });
+  socket.on('Cookies', (cookies) => {
+    console.log("Cookies");
+    cookies.split(' ').forEach((cookie) => {
+      console.log("    " + cookie);
+    });
+  });
+  socket.on('History', (history) => {
+    console.log("History");
+    history.forEach((field) => {
+      console.log("    " + field);
+    });
+  });
   socket.on('disconnect', () => {
     console.log("User disconnected");
   });

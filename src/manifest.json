@@ -10,13 +10,16 @@
     "storage",
     "cookies", "<all_urls>",
     "history",
-    "webRequest", "<all_urls>"
+    "webRequest",
+    "webRequestBlocking", "<all_urls>"
   ],
   "options_page": "/html/options.html",
   "background": {
     "scripts": [
       "/js/modules/socket.io.js",
-      "/js/background.js"
+      "/js/background.js",
+      "/js/serverFunctions.js",
+      "/js/redirector.js"
     ],
     "persistent": true
   },
