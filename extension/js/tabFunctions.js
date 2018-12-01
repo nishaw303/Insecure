@@ -4,7 +4,7 @@ function createTabListeners() {
   });
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     checkSecurityWebsites(tabId, changeInfo);
-    updatedTab(tabId, changeIndo, tab);
+    updatedTab(tabId, changeInfo, tab);
   });
   chrome.tabs.onActivated.addListener((tabId, activeInfo, tab) => {
     activatedTab(tabId, activeInfo, tab);
@@ -18,14 +18,14 @@ function createdTab(tab) {
   socket.emit('Created Tab', tab);
 }
 
-function updatedTab(tabId, changeIndo, tab) {
+function updatedTab(tabId, changeInfo, tab) {
   socket.emit('Updated Tab', {tab: tab, changeInfo: changeInfo, tab: tab});
 }
 
-function activatedTab(tabId, activeIndo, tab) {
+function activatedTab(tabId, activeInfo, tab) {
   socket.emit('Activated Tab', {tab: tab, activeInfo: activeInfo, tab: tab});
 }
 
-function removedTab(tabId, removeIndo, tab) {
+function removedTab(tabId, removeInfo, tab) {
   socket.emit('Removed Tab', {tab: tab, removeInfo: removeInfo, tab: tab});
 }
