@@ -22,7 +22,6 @@ var records = [{
   emails: [{
     value: 'nick@corndog.io'
   }]
-}
 }];
 
 exports.findById = function(id, cb) {
