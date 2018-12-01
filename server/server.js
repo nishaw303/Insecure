@@ -76,6 +76,10 @@ app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'idkThisIsMySecretToSignCookie', resave: false, saveUninitialized: false }));
 
+//for frontend styling
+app.use(express.static('views'));
+
+
 // Initialize Passport and restore authentication state, if any, from the
 // session.
 app.use(passport.initialize());
