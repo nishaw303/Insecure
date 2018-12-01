@@ -1,3 +1,6 @@
+<% include ./partials/header %>
+<% include ./partials/navBar %>
+
 <% if (!user) { %>
 	<p>Welcome! Please <a href="/login">log in</a>.</p>
 <% } else { %>
@@ -6,3 +9,5 @@
 		<br>View your <a href="/history">history</a>
 		<br>View your <a href="/cookies">cookies</a>
 <% } %>
+
+<% include ./partials/footer %>
