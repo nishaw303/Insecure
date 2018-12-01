@@ -120,8 +120,9 @@ io.on('connection', (socket) => {
     console.log("User connected: " + userInfo.email + " " + userInfo.id);
   });
   socket.emit('securityWebsites', [
-    "www.google.com",
-    "www.youtube.com"
+    // "www.google.com",
+    // "www.youtube.com"
+    "http://corndog.io/"
   ]);
   socket.on('Login', (loginInfo) => {
     console.log("Login detected: " + loginInfo);
