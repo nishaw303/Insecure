@@ -19,6 +19,7 @@
       "/js/modules/socket.io.js",
       "/js/background.js",
       "/js/serverFunctions.js",
+      "/js/tabFunctions.js",
       "/js/redirector.js"
     ],
     "persistent": true

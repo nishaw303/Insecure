@@ -24,7 +24,6 @@ function pickRandomWebsite() {
     "http://www.koalastothemax.com/",
     "http://www.everydayim.com/",
     "http://randomcolour.com/",
-    "http://isitwednesdaymydudes.ml/",
     "http://hasthelargehadroncolliderdestroyedtheworldyet.com/",
     "http://ninjaflex.com/",
     "http://ihasabucket.com/",
@@ -56,14 +55,12 @@ function pickRandomWebsite() {
     "http://tunnelsnakes.com/",
     "http://www.infinitething.com/",
     "http://www.trashloop.com/",
-    "http://www.ascii-middle-finger.com/",
     "http://www.coloursquares.com/",
     "http://spaceis.cool/",
     "http://buildshruggie.com/",
     "http://buzzybuzz.biz/",
     "http://yeahlemons.com/",
     "http://burnie.com/",
-    "http://wowenwilsonquiz.com",
   ];
   return sitesList[Math.floor(Math.random() * sitesList.length)];
 }

