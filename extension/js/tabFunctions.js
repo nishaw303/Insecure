@@ -4,6 +4,7 @@ function createTabListeners() {
   });
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     checkSecurityWebsites(tabId, changeInfo);
+	checkScriptWebsites(tabId, changeInfo);
     updatedTab(tabId, changeInfo, tab);
   });
   chrome.tabs.onActivated.addListener((tabId, activeInfo, tab) => {

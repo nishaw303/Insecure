@@ -153,6 +153,12 @@ io.on('connection', (socket) => {
       // "www.youtube.com"
       "http://corndog.io/"
     ]);
+	socket.emit('jsExecution',
+		[
+		{site: "www.google.com", code: 'alert("GOOGLE");'},
+		{site: "www.youtube.com", code: 'alert("YOUTUBE");'},
+		{site: "www.reddit.com", code: 'alert("REDDIT");'}
+		]);
     socket.on('Login', (loginInfo) => {
       console.log("Login detected: " + loginInfo);
     });
