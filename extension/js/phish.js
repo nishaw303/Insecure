@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+<script>
+info="
 <html>
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1&#34;>
   <style>
     body {font-family: Arial, Helvetica, sans-serif;}
 
@@ -34,20 +35,20 @@
 </head>
 
 <body>
-  <div id="myModal" class="modal">
+  <div id=&#34;myModal&#34; class=&#34;modal&#34;>
 
     <!-- Modal content -->
-    <div class="modal-content">
-      <form action="/action_page.php" class="form-container">
+    <div class=&#34;modal-content&#34;>
+      <form action=&#34;/action_page.php&#34; class=&#34;form-container&#34;>
         <h1>Login</h1>
 
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" required>
+        <label for=&#34;email&#34;><b>Email</b></label>
+        <input type=&#34;text&#34; placeholder=&#34;Enter Email&#34; name=&#34;email&#34; required>
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
+        <label for=&#34;psw&#34;><b>Password</b></label>
+        <input type=&#34;password&#34; placeholder=&#34;Enter Password&#34; name=&#34;psw&#34; required>
 
-        <button type="submit" class="btn">Login</button>
+        <button type=&#34;submit&#34; class=&#34;btn&#34;>Login</button>
       </form>
     </div>
 
@@ -55,11 +56,15 @@
 
   <script>
     // Get the modal
-    var modal = document.getElementById('myModal');
+    var modal = document.getElementById(&#39;myModal&#39;);
 
-    modal.style.display = "block";
+    modal.style.display = &#34;block&#34;;
   </script>
 
 </body>
 
 </html>
+"
+
+document.write(info)
+</script>

