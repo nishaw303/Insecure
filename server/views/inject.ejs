@@ -1,0 +1,37 @@
+<% include ./partials/header %>
+<% include ./partials/navBar %>
+<body>
+<div class="container-fluid">
+	<div class="table-responsive">
+		<h2> JS Injection </h2>
+		<form action="/inject" method="POST">
+			URL:
+			<br>
+			<input type="text" name="url"></input>
+			<br>
+			Javascript:
+			<br>
+			<textArea type="text" rows="3" cols="50" name="js"></textArea>
+			<br>
+			<input type="submit" value="Add"></input>
+		</form>
+		<br>
+		<div class="table-responsive">
+			<table class="table table-hover table-striped vtable" id="myTable">
+				<thead class="thead-light">
+					<th>URL</th>
+					<th>Javascript</th>
+				</thead>
+				<% for (var key in rowData){ %>
+				<tr>
+					<td><%=rowData[key]['url']%></td>
+					<td><%=rowData[key]['javascript']%></td>
+				</tr>
+				<% } %>
+			</table>
+			<br>
+		</div>
+	</div>
+</div>
+</body>
+<% include ./partials/footer %>

