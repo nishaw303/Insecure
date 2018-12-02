@@ -111,7 +111,7 @@ app.get('/logout',
     req.logout();
     res.redirect('/');
   });
-
+/*
 app.get('/cookies',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
@@ -120,6 +120,18 @@ app.get('/cookies',
       res.render('cookies', { user: req.user, rowData: result });
     });
 
+  });*/
+
+app.get('/cookies',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    con.query("SELECT * FROM Cookie WHERE userID = '"+req.query['selection']+"'", function (err, history, fields) {
+      if (err) throw err;
+      con.query("SELECT * FROM Victims", function (err, userResult, fields) {
+        if (err) throw err;
+        res.render('cookies', { users: userResult, rowData: history });
+      });
+    });
   });
 
 app.get('/history',

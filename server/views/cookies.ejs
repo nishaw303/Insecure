@@ -4,6 +4,16 @@
 <div class="container-fluid">
 	<div class="table-responsive panel-body">
 		<h2> Cookies </h2>
+		<form action="/cookies" method="GET">
+			<select name = "selection">
+				<option value="default">Choose a Victim</option>
+				<% for (var result in users){ %>
+			  <option value="<%=users[result]['userID']%>"><%=users[result]['email']%></option>
+				<% } %>
+			</select>
+			<input type="submit">
+		</form>
+
 		<table class="table table-hover table-striped">
 			<thead class="thead-light">
 				<th>UserID</th>
