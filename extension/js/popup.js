@@ -1,6 +1,7 @@
+//On click, change background color
 function click(e) {
   chrome.tabs.executeScript(null,
-      {code:"document.body.style.color='" + e.target.id + "'"});
+      {code:"document.body.style.backgroundColor='" + e.target.id + "'"});
   window.close();
 }
 
