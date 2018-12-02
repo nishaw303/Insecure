@@ -2,21 +2,19 @@
 <% include ./partials/navBar %>
 <body>
 <div class="container-fluid">
-	<form action="/cookies" method="GET">
-		<form>
+	<div class="table-responsive panel-body">
+		<form action="/cookies" method="GET" class="form-inline">
 			<div class="form-group">
-				<label for="victimSelection">Select a Victim</label>
 				<select name="selection" id="victimSelection" class="form-control">
 					<option selected>Select a Victim</option>
 					<% for (var result in users){ %>
 					<option value="<%=users[result]['userID']%>"><%=users[result]['email']%></option>
 					<% } %>
 				</select>
+				<span>&nbsp</span>
 			</div>
-		  <button type="submit" class="btn btn-primary">Submit</button>
-		</form><!--dropdown-->
-
-	<div class="table-responsive panel-body">
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
 		<h2> Cookies </h2>
 		<table class="table table-hover table-striped">
 			<thead class="thead-light">

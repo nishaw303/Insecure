@@ -5,15 +5,15 @@
 	<div class="table-responsive">
 		<h2> JS Injection </h2>
 		<form action="/inject" method="POST">
-			URL:
-			<br>
-			<input type="text" name="url"></input>
-			<br>
-			Javascript:
-			<br>
-			<textArea type="text" rows="3" cols="50" name="js"></textArea>
-			<br>
-			<input type="submit" value="Add"></input>
+			<div class="form-group">
+				<label>URL:</label>
+				<input type="text" name="url" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Javascript:</label>
+				<textarea class="form-control" id="talkingPoints" name="js" rows="3"></textarea>
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
 		</form>
 		<br>
 		<div class="table-responsive">

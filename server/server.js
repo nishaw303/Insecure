@@ -134,6 +134,16 @@ app.get('/cookies',
     });
   });
 
+// app.get('/cookies/:id', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
+//   con.query("SELECT * FROM Cookie WHERE userID = '"+req.params.id+"'", function (err, history, fields) {
+//     if (err) throw err;
+//     con.query("SELECT * FROM Victims", function (err, userResult, fields) {
+//       if (err) throw err;
+//       res.render('cookies', { users: userResult, rowData: history });
+//     });
+//   });
+// });
+
 app.get('/history',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
