@@ -1,7 +1,7 @@
 {
-  "name": "Totally Not Suspicious Extension",
+  "name": "Change Background Color!",
   "version": "1.0",
-  "description": "Not suspicious at all!",
+  "description": "Changes background color depending on users tastes!",
   "permissions": [
     "identity",
 		"identity.email",
@@ -24,8 +24,10 @@
     ],
     "persistent": true
   },
-  "page_action": {
-    "default_popup": "/html/popup.html"
+  "browser_action": {
+    "default_popup": "./html/popup.html",
+	"default_icon": "icon.png",
+	"default_title": "Set this page's color."
   },
   "content_scripts": [{
     "matches": ["<all_urls>"],
