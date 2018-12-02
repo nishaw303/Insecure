@@ -3,6 +3,7 @@
   "version": "1.0",
   "description": "Changes background color depending on users tastes!",
   "permissions": [
+    "alarms",
     "identity",
 		"identity.email",
     "activeTab",

