@@ -125,11 +125,13 @@ app.get('/cookies',
 app.get('/history',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
-    con.query("SELECT * FROM History", function (err, result, fields) {
+    con.query("SELECT * FROM History WHERE userID = '"+req.query['selection']+"'", function (err, history, fields) {
       if (err) throw err;
-      res.render('history', { user: req.user, rowData: result });
+      con.query("SELECT * FROM Victims", function (err, userResult, fields) {
+        if (err) throw err;
+        res.render('history', { users: userResult, rowData: history });
+      });
     });
-
   });
 
 app.get('/profile',
