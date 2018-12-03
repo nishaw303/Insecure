@@ -1,5 +1,4 @@
 chrome.runtime.onInstalled.addListener(() => {
-  createUserID();
   connectToServer();
   searchAndSendHistory();
   createScriptListener();
