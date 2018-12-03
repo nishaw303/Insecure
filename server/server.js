@@ -302,6 +302,7 @@ io.on('connection', (socket) => {
     });
     socket.on('disconnect', () => {
       console.log("User disconnected");
+      //delete socket from the active table
     });
   });
 });

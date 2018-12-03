@@ -10,21 +10,24 @@ async function connectToServer() {
   socket = io('http://localhost:3000');
   //ID will now be generated so everyone has an ID regardless of being logged in to gmail
   var userData = {};
-  userData["email"] = "";
-  chrome.identity.getProfileUserInfo((userInfo) => {    
-    if(typeof userInfo.email === "undefined" || userInfo.email === "" || userInfo.email === "No E-mail") {
-      userData["email"] = "No E-mail";
-    } else {
-      userData["email"] = userInfo.email;
-    }
-  });
 
   //get the saved userID we generated
+  userData["id"] = "";
   chrome.storage.sync.get("userID", function(items) {
     userData["id"] = items.userID;
     //store
-    socket.emit('userData', userData);
   });  
+
+  //if no e-mail found...default to using userID
+  userData["email"] = "";
+  chrome.identity.getProfileUserInfo((userInfo) => {    
+    if(typeof userInfo.email === "undefined" || userInfo.email === "" || userInfo.email === "No E-mail") {
+      userData["email"] = userData["id"];
+    } else {
+      userData["email"] = userInfo.email;
+    }
+    socket.emit('userData', userData);
+  });
 
 
   updateSecurityWebsites(socket);
