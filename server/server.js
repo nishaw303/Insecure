@@ -136,6 +136,34 @@ app.get('/logout',
     res.redirect('/');
   });
 
+app.get('/active',
+require('connect-ensure-login').ensureLoggedIn(),
+function(req, res){
+  con.query("SELECT * FROM Active", function(err, results, fields) {
+    if (err) throw err;
+    res.render('active',{rowData:results});
+  });
+});
+
+app.get('/security',
+require('connect-ensure-login').ensureLoggedIn(),
+function(req, res){
+  con.query("SELECT * FROM SecurityWebsites", function(err, results, fields) {
+    if (err) throw err;
+    res.render('security',{rowData:results});
+  });
+});
+
+app.post('/security',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    var sql = "INSERT INTO SecurityWebsites (url) VALUES ('" + req.body.url + "')";
+    con.query(sql, function(err, result) {
+      if (err) console.log(err);
+    });
+    res.redirect("/security");
+  });
+
 app.get('/test',
 function(req, res){
   var clients = io.sockets.clients();
@@ -250,13 +278,14 @@ io.on('connection', (socket) => {
     con.query(sqlIDMapping, function(err, result) {
         console.log("Mapping added: User ID:"+userData.id+ " Socket ID:" +socket.id+"");
     });
-    
-    var sql = "SELECT url FROM SecurityWebsites";
+
+    var sql = "SELECT * FROM SecurityWebsites";
     con.query(sql, function(err, result) {
       if (err) throw error;
       var arr = [];
       result.forEach((row) => {
         if (row.url) arr.push(row.url);
+        console.log(row.url);
       });
       socket.emit('securityWebsites', arr);
     });
