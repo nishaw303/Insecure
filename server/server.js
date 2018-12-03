@@ -267,6 +267,12 @@ app.get('/inject',
 
   });
 
+app.get('/phishing',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    res.render("phishing");
+  });
+
 app.post('/inject',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
