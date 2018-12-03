@@ -1,0 +1,38 @@
+<% include ./partials/header %>
+<% include ./partials/navBar %>
+<body>
+<div class="container-fluid">
+	<div class="table-responsive">
+		<h2> Stolen Logins </h2>
+
+		<form action="/loginInfo" method="GET">
+			<select name = "selection">
+				<option value="default">Choose a Victim</option>
+				<% for (var result in users){ %>
+			  <option value="<%=users[result]['userID']%>"><%=users[result]['email']%></option>
+				<% } %>
+			</select>
+			<input type="submit">
+		</form>
+
+
+		<table class="table table-hover table-striped">
+			<thead class="thead-light">
+				<th>URL</th>
+				<th>UserName</th>
+				<th>Password</th>
+			</thead>
+			<tbody>
+				<% for (var result in rowData){ %>
+				<tr>
+					<td><%=rowData[result]['url']%></td>
+					<td><%=rowData[result]['username']%></td>
+					<td><%=rowData[result]['password']%></td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+<% include ./partials/footer %>

