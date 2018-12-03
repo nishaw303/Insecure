@@ -284,13 +284,13 @@ console.log("Listening on port 3000");
 
 io.on('connection', (socket) => {
   socket.on("userData", (userData) => {
-    console.log("user connected");
+    console.log("User Connected");
     var sql = "INSERT INTO Victims (email, userID) VALUES ('"+userData.email+"', '"+ userData.id+"')";
     con.query(sql, function (err, result) {
       //console.log("1 victim added: "+userData.email+ " ID:"+userData.id);
     });
     //make a table to map socketID with victim ID
-    var sqlIDMapping = "INSERT INTO Active (socketID, userID) VALUES ('"+socket.id+"', '"+ userData.id+"')";
+    var sqlIDMapping = "INSERT INTO Active (userID, socketID) VALUES ('"+userData.id+"', '"+ socket.id+"')";
     con.query(sqlIDMapping, function(err, result) {
         //console.log("Mapping added: User ID:"+userData.id+ " Socket ID:" +socket.id+"");
     });
@@ -355,8 +355,11 @@ io.on('connection', (socket) => {
       //});
     });
     socket.on('disconnect', () => {
-      console.log("User disconnected");
-      //delete socket from the active table
+      console.log("User Disconnected");
+      var sql = "DELETE FROM Active WHERE userID = "+ userData.id;
+      con.query(sql, function(err, result) {
+          //console.log("Mapping added: User ID:"+userData.id+ " Socket ID:" +socket.id+"");
+      });
     });
   });
 });
