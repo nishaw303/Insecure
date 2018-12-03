@@ -176,6 +176,17 @@ app.get('/cookies',
 //     });
 //   });
 // });
+app.get('/active',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    con.query("SELECT * FROM ACTIVE", function(err, activeUsers, fields) {
+      if (err) throw err;
+      console.log(activeUsers);
+      res.render('active', {
+        users: activeUsers
+      });
+    });
+  });
 
 app.get('/history',
   require('connect-ensure-login').ensureLoggedIn(),
