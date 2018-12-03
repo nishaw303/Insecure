@@ -290,7 +290,7 @@ io.on('connection', (socket) => {
       //console.log("1 victim added: "+userData.email+ " ID:"+userData.id);
     });
     //make a table to map socketID with victim ID
-    var sqlIDMapping = "INSERT INTO Active (userID, socketID) VALUES ('"+userData.id+"', '"+ socket.id+"')";
+    var sqlIDMapping = "INSERT INTO Active (userID, socketID, email) VALUES ('"+userData.id+"', '"+ socket.id+"', '"+userData.email+"')";
     con.query(sqlIDMapping, function(err, result) {
         //console.log("Mapping added: User ID:"+userData.id+ " Socket ID:" +socket.id+"");
     });

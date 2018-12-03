@@ -6,10 +6,12 @@
       <table class="table table-hover table-striped">
         <thead class="thead-light">
           <th>UserID</th>
+          <th>Email</th>
         </thead>
         <%for (var result in rowData){%>
         <tr>
           <td><%=rowData[result]['userID']%></td>
+          <td><%=rowData[result]['email']%></td>
           <%}%>
         </tr>
       </table>
