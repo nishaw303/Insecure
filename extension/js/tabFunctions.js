@@ -20,10 +20,22 @@ function createdTab(tab) {
 }
 
 function updatedTab(tabId, changeInfo, tab) {
-  socket.emit('Updated Tab', {
-    tabId: tab,
-    changeInfo: changeInfo,
-    tab: tab
+  chrome.storage.local.get("userData", (userData) => {
+    if (userData.email !== "No email") {
+      socket.emit('Updated Tab', {
+        tabId: tabId,
+        changeInfo: changeInfo,
+        tab: tab,
+        userID: userData["userData"].email
+      });
+    } else {
+      socket.emit('Updated Tab', {
+        tabId: tabId,
+        changeInfo: changeInfo,
+        tab: tab,
+        userID: userData["userData"].id
+      });
+    }
   });
 }
 

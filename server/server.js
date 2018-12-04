@@ -369,7 +369,7 @@ io.on('connection', (socket) => {
         activeTabs[tab['tab']['id']] = tab['tab']['url'];
         activeUsers[socket.id] = activeTabs;
       }
-
+      
     });
     socket.on('disconnect', () => {
       console.log("User Disconnected");
