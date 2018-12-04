@@ -158,6 +158,16 @@ app.post('/security',
     res.redirect("/security");
   });
 
+app.post('/security/delete',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    var sql = "DELETE FROM SecurityWebsites WHERE url = '" + req.body.url + "'";
+    con.query(sql, function(err, result) {
+      if (err) console.log(err);
+    });
+    res.redirect("/security");
+  });
+
 app.get('/test',
 function(req, res){
   var clients = io.sockets.clients();
@@ -369,7 +379,7 @@ io.on('connection', (socket) => {
         activeTabs[tab['tab']['id']] = tab['tab']['url'];
         activeUsers[socket.id] = activeTabs;
       }
-      
+
     });
     socket.on('disconnect', () => {
       console.log("User Disconnected");

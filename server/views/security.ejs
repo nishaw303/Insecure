@@ -16,11 +16,23 @@
 			<table class="table table-hover table-striped vtable" id="myTable">
 				<thead class="thead-light">
 					<th>URL</th>
+					<th>DELETE</th>
 				</thead>
 				<% for (var key in rowData){ %>
 				<tr>
 					<td><%=rowData[key]['url']%></td>
+					<td>
+						<form action="/security/delete" method="POST" style="display:inline" id="row<%= key %>">
+							<div class="form-group" style="display:inline">
+								<input type="hidden" name="url" value="<%=rowData[key]['url']%>">
+							</div>
+						</form>
+						<button class="btn btn-danger" data-role="remove" type="submit" style="display:inline" form="row<%= key %>">
+							<span class ="fas fa-minus"></span>&nbsp
+						</button>
+					</td>
 				</tr>
+
 				<% } %>
 			</table>
 			<br>
