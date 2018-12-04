@@ -270,7 +270,9 @@ app.get('/inject',
 app.get('/phishing',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
-    res.render("phishing");
+    res.render('phishing', {
+      rowData: activeTabs
+    });
   });
 
 app.post('/phishing',

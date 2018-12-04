@@ -2,30 +2,19 @@
 <% include ./partials/navBar %>
 <body>
 <div class="container-fluid">
-	<div class="table-responsive">
 		<h2> Phishing </h2>
+		<br>
 		<form action="/phishing" method="POST">
-			<div class="form-group">
-				<label>URL:</label>
-				<input type="text" name="url" class="form-control">
-			</div>
-			<div class="form-group">
-				<label>Javascript:</label>
-				<textarea class="form-control" id="talkingPoints" name="js" rows="3"></textarea>
-			</div>
+			<select name="selection" id="victimSelection" class="form-control">
+				<option selected>Select an Active Tab</option>
+				<% for (var key in rowData){ %>
+				<option value="<%=rowData[key]%>"><%=rowData[key]%>></option>
+				<% } %>
+			</select>
+			<br>
 			<button type="submit" class="btn btn-default">Submit</button>
 		</form>
 		<br>
-		<div class="table-responsive">
-			<table class="table table-hover table-striped vtable" id="myTable">
-				<thead class="thead-light">
-					<th>URL</th>
-					<th>Javascript</th>
-				</thead>
-			</table>
-			<br>
-		</div>
-	</div>
 </div>
 </body>
 <% include ./partials/footer %>
