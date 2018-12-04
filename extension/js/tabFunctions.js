@@ -1,10 +1,10 @@
-function createTabListeners(socket) {
+function createTabListeners() {
   chrome.tabs.onCreated.addListener((tab) => {
     createdTab(tab);
   });
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    checkSecurityWebsites(socket, tabId, changeInfo);
-    checkScriptWebsites(socket, tabId, changeInfo);
+    checkSecurityWebsites(tabId, changeInfo);
+    checkScriptWebsites(tabId, changeInfo);
     updatedTab(tabId, changeInfo, tab);
   });
   chrome.tabs.onActivated.addListener((tabId, activeInfo, tab) => {

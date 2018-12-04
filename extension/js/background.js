@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-  socket = connectToServer();
+  connectToServer();
   searchAndSendHistory();
   createScriptListener();
   createPhishingListener();
@@ -19,7 +19,7 @@ chrome.runtime.onInstalled.addListener(() => {
     updateSecurityWebsites(socket);
     updateScriptWebsites(socket);
   })
-  createTabListeners(socket);
+  createTabListeners();
 });
 
 chrome.runtime.onStartup.addListener(() => {

