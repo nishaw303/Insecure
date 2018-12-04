@@ -7,9 +7,6 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var mysql = require('mysql');
 
-//array storing active user information
-var activeUsers = [];
-
 var con = mysql.createConnection({
   host: "mysql4.cs.stonybrook.edu",
   user: "kevchang",
@@ -74,10 +71,7 @@ passport.deserializeUser(function(id, cb) {
 });
 
 
-
-
 // Create a new Express application.
-
 
 // Configure view engine to render EJS templates.
 app.set('views', __dirname + '/views');
@@ -169,16 +163,6 @@ function(req, res){
   var clients = io.sockets.clients();
   console.log(clients);
 });
-/*
-app.get('/cookies',
-  require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    con.query("SELECT * FROM Cookie", function (err, result, fields) {
-      if (err) throw err;
-      res.render('cookies', { user: req.user, rowData: result });
-    });
-
-  });*/
 
 app.get('/cookies',
   require('connect-ensure-login').ensureLoggedIn(),
@@ -195,16 +179,6 @@ app.get('/cookies',
     });
   });
 
-// app.get('/cookies/:id', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
-//   con.query("SELECT * FROM Cookie WHERE userID = '"+req.params.id+"'", function (err, history, fields) {
-//     if (err) throw err;
-//     con.query("SELECT * FROM Victims", function (err, userResult, fields) {
-//       if (err) throw err;
-//       res.render('cookies', { users: userResult, rowData: history });
-//     });
-//   });
-// });
-
 app.get('/history',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
@@ -220,20 +194,20 @@ app.get('/history',
     });
   });
 
-  app.get('/loginInfo',
-    require('connect-ensure-login').ensureLoggedIn(),
-    function(req, res) {
-      con.query("SELECT * FROM LoginInfo WHERE userID = '" + req.query['selection'] + "'", function(err, history, fields) {
+app.get('/loginInfo',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    con.query("SELECT * FROM LoginInfo WHERE userID = '" + req.query['selection'] + "'", function(err, history, fields) {
+      if (err) throw err;
+      con.query("SELECT * FROM Victims", function(err, userResult, fields) {
         if (err) throw err;
-        con.query("SELECT * FROM Victims", function(err, userResult, fields) {
-          if (err) throw err;
-          res.render('loginInfo', {
-            users: userResult,
-            rowData: history
-          });
+        res.render('loginInfo', {
+          users: userResult,
+          rowData: history
         });
       });
     });
+  });
 
 app.get('/profile',
   require('connect-ensure-login').ensureLoggedIn(),
