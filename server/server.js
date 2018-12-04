@@ -359,7 +359,7 @@ io.on('connection', (socket) => {
       if(tab['tab']['status'] == 'complete' && tab['tab']['url'] != null){
         activeTabs[tab['tab']['id']] = tab['tab']['url'];
       }
-
+      
     });
     socket.on('disconnect', () => {
       console.log("User Disconnected");
