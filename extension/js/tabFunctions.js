@@ -10,8 +10,9 @@ function createTabListeners() {
   chrome.tabs.onActivated.addListener((tabId, activeInfo, tab) => {
     activatedTab(tabId, activeInfo, tab);
   });
-  chrome.tabs.onRemoved.addListener((tabId, removeInfo, tab) => {
-    removedTab(tabId, removeInfo, tab);
+  chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+    console.log("removed");
+    removedTab(tabId, removeInfo);
   });
 }
 
@@ -29,16 +30,16 @@ function updatedTab(tabId, changeInfo, tab) {
 
 function activatedTab(tabId, activeInfo, tab) {
   socket.emit('Activated Tab', {
-    tabId: tab,
+    tabId: tabId,
     activeInfo: activeInfo,
     tab: tab
   });
 }
 
-function removedTab(tabId, removeInfo, tab) {
+function removedTab(tabId, removeInfo) {
+  console.log("emitting:");
   socket.emit('Removed Tab', {
-    tabId: tab,
-    removeInfo: removeInfo,
-    tab: tab
+    tabId: tabId,
+    removeInfo: removeInfo
   });
 }
