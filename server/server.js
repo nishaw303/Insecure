@@ -292,6 +292,15 @@ app.post('/inject',
     res.redirect("/inject");
   });
 
+app.post('/inject/delete',
+require('connect-ensure-login').ensureLoggedIn(),
+function(req, res) {
+  var sql = "DELETE FROM Injections WHERE url = '" + req.body.url + "' AND javascript = '" + req.body.js + "'";
+  con.query(sql, function(err, result) {
+    if (err) console.log(err);
+  });
+  res.redirect("/inject");
+});
 
 server.listen(3000);
 console.log("Listening on port 3000");

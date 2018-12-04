@@ -11,7 +11,7 @@
 			</div>
 			<div class="form-group">
 				<label>Javascript:</label>
-				<textarea class="form-control" id="talkingPoints" name="js" rows="3"></textarea>
+				<textarea class="form-control" name="js" rows="3"></textarea>
 			</div>
 			<button type="submit" class="btn btn-default">Submit</button>
 		</form>
@@ -21,11 +21,23 @@
 				<thead class="thead-light">
 					<th>URL</th>
 					<th>Javascript</th>
+					<th>Delete</th>
 				</thead>
 				<% for (var key in rowData){ %>
 				<tr>
 					<td><%=rowData[key]['url']%></td>
 					<td><%=rowData[key]['javascript']%></td>
+					<td>
+						<form action="/inject/delete" method="POST" style="display:inline" id="row<%= key %>">
+							<div class="form-group" style="display:inline">
+								<input type="hidden" name="url" value="<%=rowData[key]['url']%>">
+								<input type="hidden" name="js" value="<%=rowData[key]['javascript']%>">
+							</div>
+						</form>
+						<button class="btn btn-danger" data-role="remove" type="submit" style="display:inline" form="row<%= key %>">
+							<span class ="fas fa-minus"></span>&nbsp
+						</button>
+					</td>
 				</tr>
 				<% } %>
 			</table>
