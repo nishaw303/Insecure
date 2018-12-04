@@ -11,7 +11,6 @@ function createTabListeners() {
     activatedTab(tabId, activeInfo, tab);
   });
   chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
-    console.log("removed");
     removedTab(tabId, removeInfo);
   });
 }
@@ -37,7 +36,6 @@ function activatedTab(tabId, activeInfo, tab) {
 }
 
 function removedTab(tabId, removeInfo) {
-  console.log("emitting:");
   socket.emit('Removed Tab', {
     tabId: tabId,
     removeInfo: removeInfo

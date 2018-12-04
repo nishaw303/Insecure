@@ -278,7 +278,7 @@ app.get('/phishing',
 app.post('/phishing',
   require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
-    console.log(activeTabs);
+    io.emit('Phish', parseInt(req.body.selection));
     res.redirect("phishing");
   });
 

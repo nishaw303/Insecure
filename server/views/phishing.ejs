@@ -5,10 +5,10 @@
 		<h2> Phishing </h2>
 		<br>
 		<form action="/phishing" method="POST">
-			<select name="selection" id="victimSelection" class="form-control">
+			<select name="selection" id="tabSelection" class="form-control">
 				<option selected>Select an Active Tab</option>
 				<% for (var key in rowData){ %>
-				<option value="<%=rowData[key]%>"><%=rowData[key]%>></option>
+				<option value="<%=key%>"><%=rowData[key]%>></option>
 				<% } %>
 			</select>
 			<br>
